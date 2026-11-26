@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tuntas: catat tugas harianmu dan selesaikan satu per satu.">
+  <title>Tuntas – Selesaikan satu per satu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Atur tema sebelum halaman tampil supaya tidak berkedip
+    (function () {
+      var simpan = null;
+      try { simpan = localStorage.getItem("tuntas-tema"); } catch (e) {}
+      var gelap = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", simpan || (gelap ? "dark" : "light"));
+    })();
+  </script>
+</head>
+<body>
+  <div class="app">
+
+    <!-- Panel kiri: ringkasan progres -->
+    <aside class="panel">
+      <div class="brand">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="9" fill="currentColor" opacity=".18"/>
+          <path d="M8 14.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Tuntas</span>
+      </div>
+
+      <div class="sapa">
+        <h1 id="sapaan">Halo!</h1>
+        <p id="tanggal"></p>
+      </div>
+
+      <div class="ring" role="img" id="ring-label">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-track" cx="60" cy="60" r="52"/>
+          <circle class="ring-isi" id="ring-isi" cx="60" cy="60" r="52"/>
+        </svg>
+        <div class="ring-teks">
+          <strong id="persen">0%</strong>
+          <span>selesai</span>
+        </div>
+      </div>
+
+      <p class="ringkasan" id="ringkasan"></p>
+
+      <button type="button" class="tema" id="tombol-tema" aria-label="Ganti tema">
+        <span id="tema-teks">Mode gelap</span>
+      </button>
+    </aside>
+
+    <!-- Konten kanan: daftar tugas -->
+    <main class="isi">
+      <form id="form-tugas" autocomplete="off">
+        <input type="text" id="input-tugas" placeholder="Apa yang mau kamu tuntaskan hari ini?" aria-label="Tugas baru" maxlength="120">
+        <select id="pilih-prioritas" aria-label="Prioritas">
+          <option value="rendah">Rendah</option>
+          <option value="sedang" selected>Sedang</option>
+          <option value="tinggi">Tinggi</option>
+        </select>
+        <button type="submit" class="tambah">Tambah</button>
+      </form>
+      <p class="error" id="pesan-error" role="alert"></p>
+
+      <div class="bar">
+        <div class="filter" id="filter" role="group" aria-label="Filter tugas">
+          <button type="button" data-filter="semua" aria-pressed="true">Semua</button>
+          <button type="button" data-filter="aktif" aria-pressed="false">Berjalan</button>
+          <button type="button" data-filter="selesai" aria-pressed="false">Tuntas</button>
+        </div>
+        <button type="button" class="bersih" id="hapus-selesai">Bersihkan yang tuntas</button>
+      </div>
+
+      <ul id="daftar-tugas" aria-live="polite"></ul>
+    </main>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
